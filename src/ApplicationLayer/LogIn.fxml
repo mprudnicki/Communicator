@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ApplicationLayer.LogInController">
+   <children>
+      <TextField fx:id="UsernameText" layoutX="256.0" layoutY="180.0" style="-fx-background-color: #dd7200;" />
+      <Label layoutX="128.0" layoutY="174.0" text="Username" textFill="#ff9035">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="131.0" layoutY="223.0" text="Password" textFill="#ff9035">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="62.0" layoutY="47.0" prefHeight="66.0" prefWidth="486.0" text="Communicator Project" textFill="#ff9035">
+         <font>
+            <Font name="System Bold" size="45.0" />
+         </font>
+         <effect>
+            <Bloom />
+         </effect>
+      </Label>
+      <Label layoutX="427.0" layoutY="306.0" text="or" textFill="#ff9035" />
+      <PasswordField fx:id="PasswordText" layoutX="256.0" layoutY="229.0" style="-fx-background-color: #dd7200;" />
+      <Button fx:id="LogInButton" layoutX="275.0" layoutY="275.0" mnemonicParsing="false" onAction="#LogInClicked" prefHeight="79.0" prefWidth="112.0" style="-fx-background-color: #535353;" text="Log in" textFill="#ff9035">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="SignUpButton" layoutX="474.0" layoutY="275.0" mnemonicParsing="false" onAction="#SignUpClicked" prefHeight="79.0" prefWidth="112.0" style="-fx-background-color: #535353;" text="Sign up" textFill="#ff9035">
+         <cursor>
+            <Cursor fx:constant="DEFAULT" />
+         </cursor></Button>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</AnchorPane>
