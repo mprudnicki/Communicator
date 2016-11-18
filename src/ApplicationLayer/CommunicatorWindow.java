@@ -19,15 +19,15 @@ import javafx.stage.Stage;
  *
  * @author Maciej
  */
-public class CommunicatorMainApp extends Application implements EventHandler{
-    private static final Logger LOGGER = Logger.getLogger(CommunicatorMainApp.class.getName() );
+public class CommunicatorWindow extends Application implements EventHandler{
+    private static final Logger LOGGER = Logger.getLogger(CommunicatorWindow.class.getName() );
     
     
     
     @Override
     public void start(Stage Window) {
         try{
-            AnchorPane LogIn = (AnchorPane) FXMLLoader.load(CommunicatorMainApp.class.getResource("LogIn.fxml"));
+            AnchorPane LogIn = (AnchorPane) FXMLLoader.load(CommunicatorWindow.class.getResource("LogIn.fxml"));
             Scene Logging = new Scene(LogIn);
             
             Window.setScene(Logging);
@@ -41,14 +41,14 @@ public class CommunicatorMainApp extends Application implements EventHandler{
             System.exit(1);
         }
         
-        
+       
     
     }
 
     @Override
     public void handle(Event event) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    } 
 
     /**
      * @param args the command line arguments

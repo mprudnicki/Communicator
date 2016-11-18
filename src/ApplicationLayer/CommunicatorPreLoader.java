@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package communicatormainapp;
+package ApplicationLayer;
 
 import javafx.application.Preloader;
 import javafx.application.Preloader.ProgressNotification;

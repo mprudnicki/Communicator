@@ -6,18 +6,19 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ApplicationLayer.LogInController">
    <children>
-      <TextField fx:id="UsernameText" layoutX="256.0" layoutY="180.0" style="-fx-background-color: #dd7200;" />
-      <Label layoutX="128.0" layoutY="174.0" text="Username" textFill="#ff9035">
+      <TextField fx:id="UsernameText" layoutX="226.0" layoutY="181.0" style="-fx-background-color: #ff9035;" />
+      <Label layoutX="92.0" layoutY="175.0" text="Username" textFill="#ff9035">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="131.0" layoutY="223.0" text="Password" textFill="#ff9035">
+      <Label layoutX="95.0" layoutY="224.0" text="Password" textFill="#ff9035">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>
@@ -31,15 +32,23 @@
          </effect>
       </Label>
       <Label layoutX="427.0" layoutY="306.0" text="or" textFill="#ff9035" />
-      <PasswordField fx:id="PasswordText" layoutX="256.0" layoutY="229.0" style="-fx-background-color: #dd7200;" />
+      <PasswordField fx:id="PasswordText" layoutX="226.0" layoutY="230.0" style="-fx-background-color: #ff9035;" />
       <Button fx:id="LogInButton" layoutX="275.0" layoutY="275.0" mnemonicParsing="false" onAction="#LogInClicked" prefHeight="79.0" prefWidth="112.0" style="-fx-background-color: #535353;" text="Log in" textFill="#ff9035">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
       <Button fx:id="SignUpButton" layoutX="474.0" layoutY="275.0" mnemonicParsing="false" onAction="#SignUpClicked" prefHeight="79.0" prefWidth="112.0" style="-fx-background-color: #535353;" text="Sign up" textFill="#ff9035">
          <cursor>
-            <Cursor fx:constant="DEFAULT" />
+            <Cursor fx:constant="HAND" />
          </cursor></Button>
+      <Label fx:id="IncorrectCredentialsLabel" layoutX="387.0" layoutY="199.0" prefHeight="36.0" prefWidth="206.0" text="Incorrect credentials" textFill="#ff3737">
+         <font>
+            <Font name="Candara" size="23.0" />
+         </font>
+         <effect>
+            <Glow />
+         </effect>
+      </Label>
    </children>
    <cursor>
       <Cursor fx:constant="DEFAULT" />

@@ -14,13 +14,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -31,6 +31,7 @@ import javafx.stage.Stage;
  */
 public class LogInController implements Initializable {
     private static final Logger LOGGER = Logger.getLogger(CommunicatorWindow.class.getName() );
+    private Task<Void> backgroundThread;
     
     @FXML
     private TextField UsernameText; 
@@ -49,6 +50,8 @@ public class LogInController implements Initializable {
     
     @FXML
     public void LogInClicked(ActionEvent event){
+        
+        
         try{
             String Username      = UsernameText.getText();
             char[] PasswordChars = PasswordText.getText().toCharArray();
@@ -63,9 +66,7 @@ public class LogInController implements Initializable {
             try {
                 PasswordHashed = Password.generateHash(PasswordChars);
                 Communication.sendCredentials(Username, PasswordHashed);
-            } catch (NoSuchAlgorithmException e) {
-                LOGGER.log(Level.WARNING, null, e);
-            } catch (InvalidKeySpecException e) {
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                 LOGGER.log(Level.WARNING, null, e);
             }
 

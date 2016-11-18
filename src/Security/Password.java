@@ -13,16 +13,11 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class Password {
     
+    private Password(){}
     public static String generateHash (char [] password) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        final int iterations = 1000;
-        char[] characters = null;
+        final int iterations = 1023;
         byte[] salt = getSalt();
-        System.arraycopy(password, 0, characters, 0, password.length);
-        
-            password = null;
-            System.gc();
-        
-        PBEKeySpec keySpecification = new PBEKeySpec(characters, salt, iterations, 512); 
+        PBEKeySpec keySpecification = new PBEKeySpec(password, salt, iterations, 512); 
         SecretKeyFactory sekretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hash = sekretKeyFactory.generateSecret(keySpecification).getEncoded();
         return iterations + "::" + toHex(salt) + "::" + toHex(hash);
