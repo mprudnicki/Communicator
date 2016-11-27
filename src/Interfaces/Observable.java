@@ -5,12 +5,10 @@
  */
 package Interfaces;
 
-import javafx.scene.control.Button;
-
 /**
  *
- * @author ADMIN
+ * @author Maciej
  */
-public class LogInButton extends Button{
+public class Observable {
     
 }
