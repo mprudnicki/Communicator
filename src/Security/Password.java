@@ -1,8 +1,11 @@
 package Security;
+import ApplicationLayer.CommunicatorWindow;
 import java.math.BigInteger;
 import java.security.spec.InvalidKeySpecException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -12,7 +15,7 @@ import javax.crypto.spec.PBEKeySpec;
  * @author Maciej
  */
 public class Password {
-    
+    private static final Logger LOGGER = Logger.getLogger(Password.class.getName() );
     private Password(){}
     public static String generateHash (char [] password) throws NoSuchAlgorithmException, InvalidKeySpecException{
         final int iterations = 1023;
@@ -20,7 +23,7 @@ public class Password {
         PBEKeySpec keySpecification = new PBEKeySpec(password, salt, iterations, 512); 
         SecretKeyFactory sekretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hash = sekretKeyFactory.generateSecret(keySpecification).getEncoded();
-        return iterations + "::" + toHex(salt) + "::" + toHex(hash);
+        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
     
     public static byte[] getSalt(){
