@@ -5,8 +5,10 @@
  */
 package ApplicationLayer;
 
-import Database.Communication;
+import Database.DBCommunication;
 import Security.Password;
+import Security.PasswordHasher;
+import Security.UserValidator;
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +32,9 @@ import javafx.stage.Stage;
  * @author Maciej
  */
 public class LogInController implements Initializable {
+    private PasswordHasher PasswordHasher;
+    private UserValidator  UserValidator;
+    private DBCommunication DBCommunication;
     private static final Logger LOGGER = Logger.getLogger(CommunicatorWindow.class.getName() );
     private Task<Void> backgroundThread;
     
@@ -50,8 +55,8 @@ public class LogInController implements Initializable {
     
     @FXML
     public void LogInClicked(ActionEvent event){
-        
-        
+        PasswordHasher = PasswordHasher.getInstance();
+        UserValidator  = UserValidator.getInstance();
         try{
             String Username      = UsernameText.getText();
             char[] PasswordChars = PasswordText.getText().toCharArray();
@@ -64,8 +69,10 @@ public class LogInController implements Initializable {
 
             String PasswordHashed = null;
             try {
-                PasswordHashed = Password.generateHash(PasswordChars);
-                Communication.sendCredentials(Username, PasswordHashed);
+                PasswordHashed = PasswordHasher.generateHash(PasswordChars);
+                DBCommunication.sendCredentials(Username, PasswordHashed);
+                
+                
             } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                 LOGGER.log(Level.WARNING, null, e);
             }
@@ -79,7 +86,7 @@ public class LogInController implements Initializable {
         
         
     }
-    
+   
     @FXML
     public void SignUpClicked(ActionEvent event) throws IOException{
         
