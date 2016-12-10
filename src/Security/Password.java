@@ -16,17 +16,18 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class Password {
     private static final Logger LOGGER = Logger.getLogger(Password.class.getName() );
-    private Password(){}
-    public static String generateHash (char [] password) throws NoSuchAlgorithmException, InvalidKeySpecException{
+    public Password(){}
+    
+    public String generateHash (char [] password) throws NoSuchAlgorithmException, InvalidKeySpecException{
         final int iterations = 1023;
         byte[] salt = getSalt();
         PBEKeySpec keySpecification = new PBEKeySpec(password, salt, iterations, 512); 
         SecretKeyFactory sekretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hash = sekretKeyFactory.generateSecret(keySpecification).getEncoded();
-        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
+        return iterations + ":" + this.toHex(salt) + ":" + this.toHex(hash);
     }
     
-    public static byte[] getSalt(){
+    public byte[] getSalt(){
         final SecureRandom Random = new SecureRandom();
         byte[] salt;
         salt = new byte[32];
@@ -37,26 +38,10 @@ public class Password {
     
     
     
-    public static boolean validate(String hashInput, String hashDatabase) throws NoSuchAlgorithmException, InvalidKeySpecException{
-        String[] parts = hashInput.split(":");
-        int iterations = Integer.parseInt(parts[0]);
-        byte[] salt = fromHex(parts[1]);
-        byte[] hash = fromHex(parts[2]);
-         
-        PBEKeySpec spec = new PBEKeySpec(hashDatabase.toCharArray(), salt, iterations, hash.length * 8);
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] testHash = skf.generateSecret(spec).getEncoded();
-         
-        int diff = hash.length ^ testHash.length;
-        for(int i = 0; i < hash.length && i < testHash.length; i++)
-        {
-            diff |= hash[i] ^ testHash[i];
-        }
-        return diff == 0;
-    }
     
     
-    private static String toHex(byte[] array) throws NoSuchAlgorithmException
+    
+    public String toHex(byte[] array) throws NoSuchAlgorithmException
     {
         BigInteger bi = new BigInteger(1, array);
         String hex = bi.toString(16);
@@ -69,7 +54,7 @@ public class Password {
         }
     }
     
-    private static byte[] fromHex(String hex) throws NoSuchAlgorithmException
+    public byte[] fromHex(String hex) throws NoSuchAlgorithmException
     {
         byte[] bytes = new byte[hex.length() / 2];
         for(int i = 0; i<bytes.length ;i++)

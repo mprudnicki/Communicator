@@ -10,6 +10,7 @@ import Security.Password;
 import Security.PasswordHasher;
 import Security.UserValidator;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -32,8 +33,8 @@ import javafx.stage.Stage;
  * @author Maciej
  */
 public class LogInController implements Initializable {
-    private PasswordHasher PasswordHasher;
-    private UserValidator  UserValidator;
+    private PasswordHasher PasswordHasher = null;
+    private UserValidator  UserValidator = null;
     private DBCommunication DBCommunication;
     private static final Logger LOGGER = Logger.getLogger(CommunicatorWindow.class.getName() );
     private Task<Void> backgroundThread;
@@ -55,14 +56,25 @@ public class LogInController implements Initializable {
     
     @FXML
     public void LogInClicked(ActionEvent event){
-        PasswordHasher = PasswordHasher.getInstance();
-        UserValidator  = UserValidator.getInstance();
+        try{
+            PasswordHasher = PasswordHasher.getInstance();
+        }
+        catch(NullPointerException nle){
+            LOGGER.log(Level.INFO, "NULL POINTER EXCEPTION IN PASSWORD HASHER SINGLETON!");
+        }
+        try{
+            UserValidator  = UserValidator.getInstance();
+        }
+        catch(NullPointerException nle){
+            LOGGER.log(Level.INFO, "NULL POINTER EXCEPTION IN USER VALIDATOR SINGLETON!");
+        }
+        
         try{
             String Username      = UsernameText.getText();
             char[] PasswordChars = PasswordText.getText().toCharArray();
             
-            if(Username.length() == 0 || PasswordChars.length == 0) throw new IllegalArgumentException();
-            
+            if(Username.length() == 0 || PasswordChars.length == 0)        throw new IllegalArgumentException();
+            else if(Username.length() >= 30 || PasswordChars.length >= 50) throw new IllegalArgumentException();
             UsernameText.deleteText(0, UsernameText.getLength());
             PasswordText.deleteText(0, PasswordText.getLength());
             IncorrectCredentialsLabel.setVisible(false);

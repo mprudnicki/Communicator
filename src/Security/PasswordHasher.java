@@ -5,7 +5,6 @@
  */
 package Security;
 
-import static Security.Password.getSalt;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Logger;
@@ -18,26 +17,29 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class PasswordHasher {
     private PasswordHasher PasswordHasher;
-    private Password password;
-    
-    
+    private Password       Password;
     private static final Logger LOGGER = Logger.getLogger(Password.class.getName() );
-    public PasswordHasher(){}
+    private PasswordHasher(){}
+    
+    
+    
     public String generateHash (char [] password) throws NoSuchAlgorithmException, InvalidKeySpecException{
         final int iterations = 1023;
         byte[] salt;
-        salt = password.getSalt();
+        salt = Password.getSalt();
         PBEKeySpec keySpecification = new PBEKeySpec(password, salt, iterations, 512); 
         SecretKeyFactory sekretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] hash = sekretKeyFactory.generateSecret(keySpecification).getEncoded();
-        return iterations + ":" + password.toHex(salt) + ":" + password.toHex(hash);
+        return iterations + ":" + Password.toHex(salt) + ":" + Password.toHex(hash);
     }
     
     public PasswordHasher getInstance(){
         if (PasswordHasher == null){
-            synchronized(UserValidator.class){
-                PasswordHasher = new PasswordHasher();
-            }
+            synchronized(PasswordHasher.class){
+                if(PasswordHasher == null)
+                    PasswordHasher = new PasswordHasher();
+                }
+            
         }
         return PasswordHasher;
     }
