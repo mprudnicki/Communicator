@@ -1,7 +1,7 @@
 package controllers;
 
 import database.Communication;
-import security.Password;
+
 import java.io.IOException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
@@ -26,6 +26,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.StageStyle;
 import javafx.scene.text.Text;
+import security.PasswordHasher;
 
 public class LoginController implements Initializable {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
@@ -57,30 +58,35 @@ public class LoginController implements Initializable {
 	@FXML
 	private void loginButtonOnAction(ActionEvent event) {
 
-		try {
-			String Username = txtUsername.getText();
-			char[] PasswordChars = txtPassword.getText().toCharArray();
-
-			if ((Username.length() == 0 || PasswordChars.length == 0))
-				throw new IllegalArgumentException();
-
-			// txtUsername.deleteText(0, txtUsername.getLength());
-			// txtPassword.deleteText(0, txtPassword.getLength());
-			incorrectCredentialsLabel.setVisible(false);
-
-			String PasswordHashed = null;
-			try {
-				PasswordHashed = Password.generateHash(PasswordChars);
-				Communication.sendCredentials(Username, PasswordHashed);
-			} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-				LOGGER.log(Level.WARNING, null, e);
-			}
-
-			System.out.println(PasswordHashed);
-
-		} catch (IllegalArgumentException e) {
-			incorrectCredentialsLabel.setVisible(true);
-		}
+            incorrectCredentialsLabel.setVisible(false);
+            String passwordHashed = null;
+            String username = null;
+            String password = null;    
+            try{
+                username = txtUsername.getText();
+		password = txtPassword.getText();
+            } catch (NullPointerException nlp){
+                LOGGER.log(Level.SEVERE, null, nlp);
+            }       
+            
+            try{
+            if(username.length() == 0 || username.length() > 50 || password.length() == 0 || password.length() > 50 )        
+                throw new IllegalArgumentException();
+            
+                try {
+                    passwordHashed = PasswordHasher.getInstance().hashpw(password, 
+                    PasswordHasher.getInstance().gensalt());
+                } catch (NullPointerException nlp){
+                    LOGGER.log(Level.SEVERE, null, nlp);
+                }
+            
+                LOGGER.log(Level.INFO, passwordHashed);
+            
+            } catch(IllegalArgumentException e){
+                incorrectCredentialsLabel.setVisible(true);
+            }        
+                    
+            
 
 		if (txtUsername.getText().equals("test") && txtPassword.getText().equals("test")) {
 
